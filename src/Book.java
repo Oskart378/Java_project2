@@ -10,7 +10,7 @@ public class Book {
     public enum Genre {
         FICTION,
         FANTASY,
-        SCIENCE_FICTION,
+        CLASSIC,
         MYSTERY,
         HORROR,
         ROMANCE,
@@ -21,22 +21,22 @@ public class Book {
         SCIENCE
     }
 
-    public Book(String title, String authorFirst, String authorLast, Genre genre, int yearPublished) throws Exception {
-        setAuthor(authorFirst, authorLast);
+    public Book(String title, String author, Genre genre, int yearPublished) throws Exception {
+        setAuthor(author);
         setGenre(genre);
         setTitle(title);
         setYearPublished(yearPublished);
     }
 
     private boolean isValidName(String name) {
-        return name != null && !name.isBlank() && name.matches("^[A-Za-z](?:[A-Za-z'\\-]*[A-Za-z])?(?: [A-Za-z'\\-]+)*$");
+        return name != null && !name.isBlank() && name.matches("^[A-Za-z .]+$");
     }
 
-    private void setAuthor(String authorFirst, String authorLast) throws Exception {
-        if (isValidName(authorFirst) && isValidName(authorLast))
-            this.author = authorFirst + " " + authorLast;
+    private void setAuthor(String author) throws Exception {
+        if (isValidName(author))
+            this.author = author;
         else
-            throw new Exception("Author can't be blank");
+            throw new Exception("Author can't be blank or have invalid characters like numbers or symbols");
 
     }
 
@@ -81,7 +81,7 @@ public class Book {
         return "Book{" +
                 "title='" + title + '\'' +
                 ", author='" + author + '\'' +
-                ", genre=" + genre.toString().replace("_", " ").toLowerCase() +
+                ", genre=" + genre.toString().toLowerCase() +
                 ", year published=" + yearPublished +
                 '}';
     }

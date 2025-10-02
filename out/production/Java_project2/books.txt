@@ -1,0 +1,4 @@
+Azul;Ruben Dario;FICTION;2010
+Azul;Ruben Dario;FICTION;2011
+Azul;Ruben Dario;ICTION;2009
+Verde;Ruben Dario;FICTION;2019
