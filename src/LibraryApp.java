@@ -5,5 +5,7 @@ public class LibraryApp {
 
         lib.loadBooksFromFile("src/books.txt");
         lib.searchByTitle("Verde");
+        lib.displayAllBooks();
+
     }
 }

@@ -13,6 +13,7 @@ public class Library {
 
     public void loadBooksFromFile(String fileName) {
 
+        fileName = fileName.trim();
         File file = new File(fileName);
 
         if (!file.exists()) {
@@ -65,6 +66,8 @@ public class Library {
     }
 
     public void searchByTitle(String title) {
+
+        title = title.trim();
 
         if (books.isEmpty()) {
             System.out.println("Not loaded books in library, try to load books first");
