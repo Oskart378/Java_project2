@@ -45,7 +45,7 @@ public class Library {
                try {
                     String title = bookInfo[0].trim();
                     String author = bookInfo[1].trim();
-                    Book.Genre genre = Book.Genre.valueOf(bookInfo[2].trim().toUpperCase());
+                    String genre = bookInfo[2].trim();
                     int year = Integer.parseInt(bookInfo[3].trim());
 
                     books.add(new Book(title, author, genre, year));
@@ -93,16 +93,16 @@ public class Library {
             filtered.forEach(System.out::println);
     }
 
-    public void filterByGenre(Book.Genre genre) {
+    public void filterByGenre(String genre) {
         if (books.isEmpty()) {
             System.out.println("No books loaded in library, try to load books first");
             return;
         }
 
-        var filtered = books.stream().filter(b ->b.getGenre() == genre).toList();
+        var filtered = books.stream().filter(b -> b.getGenre().equalsIgnoreCase(genre)).toList();
 
         if (filtered.isEmpty())
-            System.out.println("There is no books of the genre " + genre.toString().toLowerCase()
+            System.out.println("There is no books of the genre " + genre.toLowerCase()
                     + " yet");
         else
             filtered.forEach(System.out::println);

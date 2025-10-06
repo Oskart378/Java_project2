@@ -13,4 +13,4 @@ A Brief History of Time;Stephen Hawking;SCIENCE;1988
 Charlotte's Web;E.B. White;CHILDREN;1952
 The Odyssey;Homer;POETRY;800
 Sapiens: A Brief History of Humankind;Yuval Noah Harari;HISTORY;2011
-Frankenstein;Mary Shelley;HORROR;-50
+Frankenstein;Mary Shelley;blue;1900

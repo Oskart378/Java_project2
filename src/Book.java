@@ -4,24 +4,11 @@ public class Book {
 
     private final String title;
     private final String author;
-    private final Genre genre;
+    private final String genre;
     private final int yearPublished;
 
-    public enum Genre {
-        FICTION,
-        FANTASY,
-        CLASSIC,
-        MYSTERY,
-        HORROR,
-        ROMANCE,
-        BIOGRAPHY,
-        HISTORY,
-        POETRY,
-        CHILDREN,
-        SCIENCE
-    }
 
-    public Book(String title, String author, Genre genre, int yearPublished) throws Exception {
+    public Book(String title, String author, String genre, int yearPublished) throws Exception {
         if (title == null || title.isBlank())
             throw new IllegalArgumentException("Title can't be blank");
         if(!isValidName(author))
@@ -33,7 +20,7 @@ public class Book {
 
         this.title = title.trim();
         this.author = author.trim();
-        this.genre = genre;
+        this.genre = genre.trim();
         this.yearPublished = yearPublished;
     }
 
@@ -53,7 +40,7 @@ public class Book {
         return author;
     }
 
-    public Genre getGenre() {
+    public String getGenre() {
         return genre;
     }
 
@@ -63,7 +50,6 @@ public class Book {
 
     @Override
     public String toString() {
-        String formattedGenre = genre.name().charAt(0) + genre.name().substring(1).toLowerCase();
-        return "Title: " + title + ", Author: " + author + ", Genre: " + formattedGenre + ", Year: " + yearPublished;
+        return "Title: " + title + ", Author: " + author + ", Genre: " + genre + ", Year: " + yearPublished;
     }
 }

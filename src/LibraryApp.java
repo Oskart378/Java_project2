@@ -1,13 +1,12 @@
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class LibraryApp {
 
-    private static Scanner input = new Scanner(System.in);
-    private Library library;
+    private static final Scanner input = new Scanner(System.in);
+    private final Library library;
 
     public LibraryApp(Library library) {
         this.library = library;
@@ -35,13 +34,15 @@ public class LibraryApp {
                 case 1 -> reloadBooks();
                 case 2 -> displayAllBooks();
                 case 3 -> searchByTitle();
-                case 4 -> filterByGender();
-                case 5 -> running = false;
+                case 4 -> filterByGenre();
+                case 5 -> { System.out.println("Good Bye!"); running = false;}
+                default -> System.out.println("Please enter a valid choice between 1 and 5");
             }
         }
     }
 
     private void printMenu() {
+        System.out.println("\n===== Library Menu =====");
         System.out.println("1. Reload books from a different file.");
         System.out.println("2. Display all books.");
         System.out.println("3. Search by title.");
@@ -53,12 +54,18 @@ public class LibraryApp {
     private int promptMenuChoice() {
         String inputStr = input.nextLine().trim();
 
-        try {
-            return Integer.parseInt(inputStr);
-        }
-        catch (NumberFormatException ex) {
-            System.out.println("Please enter a valid choice between 1 and 5");
-            return -1;
+        while (true){
+            try {
+                int choice = Integer.parseInt(inputStr);
+                if (choice >= 1 && choice <= 5)
+                    return choice;
+                else
+                    System.out.println("Please enter a valid choice between 1 and 5");
+
+            } catch (NumberFormatException ex) {
+                System.out.println("Please enter a valid choice between 1 and 5");
+            }
+
         }
     }
 
@@ -77,20 +84,19 @@ public class LibraryApp {
     private void searchByTitle() {
         clearScreen();
         System.out.println("Enter a book title: ");
-        String title = input.nextLine();
+        String title = input.nextLine().trim();
         library.searchByTitle(title);
         pauseConsole();
     }
 
-    private void filterByGender() {
-        System.out.println("Available genres: ");
-        String genres = Arrays.stream(Book.Genre.values()).
-                map(g -> g.name().substring(0,1) + g.name().substring(1).toLowerCase()).
-                collect(Collectors.joining(", "));
-        System.out.print("[");
-        System.out.print(genres);
-        System.out.println("]");
-        Book.Genre genre = promptValidGenre();
+    private void filterByGenre() {
+        //System.out.println("Available genres: ");
+        //String genres = Arrays.stream(Book.Genre.values()).
+                //map(g -> g.name().charAt(0) + g.name().substring(1).toLowerCase()).
+                //collect(Collectors.joining(", "));
+        //System.out.println("[" + genres + "]");
+        System.out.println("Enter a genre: ");
+        String genre = input.nextLine().trim(); /*promptValidGenre();*/
         library.filterByGenre(genre);
         pauseConsole();
     }
@@ -106,7 +112,7 @@ public class LibraryApp {
 
         while (true){
             System.out.println("Enter the file path: ");
-            String path = input.nextLine();
+            String path = input.nextLine().trim();
             File file = new File(path);
 
             if (!file.exists())
@@ -124,7 +130,7 @@ public class LibraryApp {
 
     }
 
-    public static Book.Genre promptValidGenre() {
+    /*public static String promptValidGenre() {
 
         while (true){
             String genreInput;
@@ -136,7 +142,6 @@ public class LibraryApp {
             } catch (IllegalArgumentException ex) {
                 System.out.println("Not a valid genre!");
             }
-        }
+        }*/
     }
 
-}
