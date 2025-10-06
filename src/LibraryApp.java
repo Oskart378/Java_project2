@@ -52,9 +52,13 @@ public class LibraryApp {
     }
 
     private int promptMenuChoice() {
-        String inputStr = input.nextLine().trim();
-
         while (true){
+            String inputStr = input.nextLine().trim();
+            if (inputStr.isEmpty()) {
+                System.out.println("Please enter a valid choice between 1 and 5");
+                continue;
+            }
+
             try {
                 int choice = Integer.parseInt(inputStr);
                 if (choice >= 1 && choice <= 5)
