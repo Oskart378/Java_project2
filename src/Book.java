@@ -2,10 +2,10 @@ import java.time.LocalDate;
 
 public class Book {
 
-    private String title;
-    private String author;
-    private Genre genre;
-    private int yearPublished;
+    private final String title;
+    private final String author;
+    private final Genre genre;
+    private final int yearPublished;
 
     public enum Genre {
         FICTION,
@@ -22,42 +22,27 @@ public class Book {
     }
 
     public Book(String title, String author, Genre genre, int yearPublished) throws Exception {
-        setAuthor(author);
-        setGenre(genre);
-        setTitle(title);
-        setYearPublished(yearPublished);
+        if (title == null || title.isBlank())
+            throw new IllegalArgumentException("Title can't be blank");
+        if(!isValidName(author))
+            throw new IllegalArgumentException("Author can't be blank or have invalid characters like numbers or symbols");
+        if (genre == null)
+            throw new IllegalArgumentException("Genre can't be null");
+        if (!isValidYearPublished(yearPublished))
+            throw new IllegalArgumentException("Invalid year");
+
+        this.title = title.trim();
+        this.author = author.trim();
+        this.genre = genre;
+        this.yearPublished = yearPublished;
     }
 
     private boolean isValidName(String name) {
         return name != null && !name.isBlank() && name.matches("^[A-Za-z .]+$");
     }
 
-    private void setAuthor(String author) throws Exception {
-        if (isValidName(author))
-            this.author = author;
-        else
-            throw new Exception("Author can't be blank or have invalid characters like numbers or symbols");
-
-    }
-
-    private void setYearPublished(int yearPublished) throws Exception {
-        if (yearPublished > 0 && yearPublished <= (LocalDate.now().getYear()))
-            this.yearPublished = yearPublished;
-        else
-            throw new Exception("Invalid year. must be a year between 0 and " +
-                    LocalDate.now().getYear());
-    }
-
-    private void setGenre(Genre genre) throws Exception {
-        this.genre = genre;
-    }
-
-
-    private void setTitle(String title) throws Exception {
-        if (title != null && !title.isBlank())
-            this.title = title;
-        else
-            throw new Exception("Title can't be blank");
+    private boolean isValidYearPublished(int yearPublished) {
+        return (yearPublished > 0 && yearPublished <= (LocalDate.now().getYear()));
     }
 
     public String getTitle() {
