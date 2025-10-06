@@ -11,8 +11,16 @@ public class Library {
         books = new ArrayList<>();
     }
 
+    public Library(String fileName) {
+        this();
+        loadBooksFromFile(fileName);
+    }
+
+
+
     public void loadBooksFromFile(String fileName) {
 
+        books.clear();
         fileName = fileName.trim();
         File file = new File(fileName);
 
@@ -23,10 +31,15 @@ public class Library {
 
         try (Scanner fileReader = new Scanner(file)) {
 
+            int lineNum = 0;
             while(fileReader.hasNext()) {
-                int lineNum = 1;
+
+                lineNum++;
                 String bookRow = fileReader.nextLine();
                 String[] bookInfo = bookRow.split(";");
+
+                if (bookRow.isBlank())
+                    continue;
 
                 if (bookInfo.length != 4) {
                     System.out.println("Book not added, row does not have enough data");
@@ -43,7 +56,7 @@ public class Library {
                }
 
                catch (Exception ex) {
-                    System.out.println("Error in line #" + lineNum + "\n" + ex.getMessage());
+                    System.out.println("Error in line #" + lineNum + ": " + ex.getMessage());
                 }
             }
         }
@@ -62,22 +75,23 @@ public class Library {
             return;
         }
 
-        books.forEach(System.out::println);
+        for (int i = 0; i < books.size(); i++) {
+            System.out.println((i + 1) + ". " + books.get(i));
+        }
     }
 
     public void searchByTitle(String title) {
-
-        title = title.trim();
 
         if (books.isEmpty()) {
             System.out.println("Not loaded books in library, try to load books first");
             return;
         }
 
-        var filtered = books.stream().filter(b -> b.getTitle().startsWith(title)).toList();
+        var filtered = books.stream().filter(b -> b.getTitle().toLowerCase().
+                startsWith(title.trim().toLowerCase())).toList();
 
         if (filtered.isEmpty())
-            System.out.println("There is no book with title of " + title.toString().toLowerCase()
+            System.out.println("There is no book with title of " + title.toLowerCase()
                     + " yet");
         else
             filtered.forEach(System.out::println);
@@ -85,7 +99,7 @@ public class Library {
 
     public void filterByGenre(Book.Genre genre) {
         if (books.isEmpty()) {
-            System.out.println("Not loaded books in library, try to load books first");
+            System.out.println("No books loaded in library, try to load books first");
             return;
         }
 

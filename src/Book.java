@@ -78,9 +78,7 @@ public class Book {
 
     @Override
     public String toString() {
-        return "[Book title='" + title + '\'' +
-                ", author='" + author + '\'' +
-                ", genre=" + genre.toString().toLowerCase() +
-                ", year published=" + yearPublished + "]";
+        String formattedGenre = genre.name().charAt(0) + genre.name().substring(1).toLowerCase();
+        return "Title: " + title + ", Author: " + author + ", Genre: " + formattedGenre + ", Year: " + yearPublished;
     }
 }
