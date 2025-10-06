@@ -1,6 +1,4 @@
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,8 +13,6 @@ public class Library {
         this();
         loadBooksFromFile(fileName);
     }
-
-
 
     public void loadBooksFromFile(String fileName) {
 
@@ -71,7 +67,7 @@ public class Library {
     public void displayAllBooks() {
 
         if (books.isEmpty()) {
-            System.out.println("Not loaded books in library, try to load books first");
+            System.out.println("No books loaded books in library, try to load books first");
             return;
         }
 
@@ -83,7 +79,7 @@ public class Library {
     public void searchByTitle(String title) {
 
         if (books.isEmpty()) {
-            System.out.println("Not loaded books in library, try to load books first");
+            System.out.println("No books loaded in library, try to load books first");
             return;
         }
 
