@@ -1,0 +1,8 @@
+  The Silmarillion ; J.R.R. Tolkien ; Fantasy ; 1977
+Dune;Frank Herbert;Science Fiction;1965
+Bad Line Missing Year;Author;Genre
+Title With Extra;Semicolons;Fantasy;1965;EXTRA
+TrailingSpace   ;  Some Author ;  Classic  ;  1950  
+EmptyYear;Anon;Memoir;
+;AuthorOnly;Genre;2001
+# comment-like line that should be ignored?

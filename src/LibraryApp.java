@@ -1,7 +1,5 @@
 import java.io.File;
-import java.util.Arrays;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class LibraryApp {
 
@@ -13,8 +11,8 @@ public class LibraryApp {
     }
 
     public static void main(String[] args) {
-        String booksFilePath = promptValidFileName();
-        Library library = new Library(booksFilePath);
+        //String booksFilePath = promptValidFileName();
+        Library library = new Library();
         new LibraryApp(library).run();
     }
 
@@ -31,7 +29,7 @@ public class LibraryApp {
             int choice = promptMenuChoice();
 
             switch (choice) {
-                case 1 -> reloadBooks();
+                case 1 -> loadBooks();
                 case 2 -> displayAllBooks();
                 case 3 -> searchByTitle();
                 case 4 -> filterByGenre();
@@ -43,12 +41,12 @@ public class LibraryApp {
 
     private void printMenu() {
         System.out.println("\n===== Library Menu =====");
-        System.out.println("1. Reload books from a different file.");
+        System.out.println("1. Load books from file");
         System.out.println("2. Display all books.");
         System.out.println("3. Search by title.");
         System.out.println("4. Filter by genre.");
         System.out.println("5. Exit");
-        System.out.println("Enter an option: ");
+        System.out.print("Enter an option: ");
     }
 
     private int promptMenuChoice() {
@@ -73,7 +71,7 @@ public class LibraryApp {
         }
     }
 
-    private void reloadBooks() {
+    private void loadBooks() {
         clearScreen();
         String newPath = promptValidFileName();
         library.loadBooksFromFile(newPath);
@@ -87,10 +85,17 @@ public class LibraryApp {
 
     private void searchByTitle() {
         clearScreen();
-        System.out.println("Enter a book title: ");
-        String title = input.nextLine().trim();
-        library.searchByTitle(title);
+        if (library.isLibraryEmpty()) {
+            System.out.println("No books loaded in the library. please try to load books first.");
+        }
+
+        else {
+            System.out.println("Enter a book title: ");
+            String title = input.nextLine().trim();
+            library.searchByTitle(title);
+        }
         pauseConsole();
+
     }
 
     private void filterByGenre() {
@@ -99,9 +104,18 @@ public class LibraryApp {
                 //map(g -> g.name().charAt(0) + g.name().substring(1).toLowerCase()).
                 //collect(Collectors.joining(", "));
         //System.out.println("[" + genres + "]");
-        System.out.println("Enter a genre: ");
-        String genre = input.nextLine().trim(); /*promptValidGenre();*/
-        library.filterByGenre(genre);
+        clearScreen();
+        if (library.isLibraryEmpty()) {
+            System.out.println("No books loaded in the library. please try to load books first.");
+        }
+
+        else {
+            System.out.println("Available genres:");
+            System.out.println("[" + "Fiction, Fantasy, Classic, Mystery, Horror, Romance, Biography, History, Poetry, Children, Science" + "]");
+            System.out.println("Enter a genre: ");
+            String genre = input.nextLine().trim(); /*promptValidGenre();*/
+            library.filterByGenre(genre);
+        }
         pauseConsole();
     }
 

@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -20,17 +21,15 @@ public class Library {
         fileName = fileName.trim();
         File file = new File(fileName);
 
-        if (!file.exists()) {
+        /*if (!file.exists()) {
             System.out.println("Sorry, could not load books, file does not exist");
             return;
-        }
+        }*/
 
         try (Scanner fileReader = new Scanner(file)) {
-
-            int lineNum = 0;
+            int corruptDataNum = 0;
             while(fileReader.hasNext()) {
 
-                lineNum++;
                 String bookRow = fileReader.nextLine();
                 String[] bookInfo = bookRow.split(";");
 
@@ -38,7 +37,7 @@ public class Library {
                     continue;
 
                 if (bookInfo.length != 4) {
-                    System.out.println("Book not added, row does not have enough data");
+                    corruptDataNum++;
                     continue;
                 }
 
@@ -49,12 +48,24 @@ public class Library {
                     int year = Integer.parseInt(bookInfo[3].trim());
 
                     books.add(new Book(title, author, genre, year));
+
+
+               }
+
+               catch (IOException ex) {
+                   System.out.println("Error: could not open '" + fileName + "'. Please check the path and permission try again.");
                }
 
                catch (Exception ex) {
-                    System.out.println("Error in line #" + lineNum + ": " + ex.getMessage());
+                    //System.out.println("Error: " + ex.getMessage());
+                    corruptDataNum++;
                 }
             }
+
+            System.out.println("Loaded " + books.size() + " book(s).");
+
+            if(corruptDataNum > 0)
+                System.out.println("Skipped " + corruptDataNum + " corrupted line(s).");
         }
 
         catch (Exception ex) {
@@ -67,13 +78,15 @@ public class Library {
     public void displayAllBooks() {
 
         if (books.isEmpty()) {
-            System.out.println("No books loaded books in library, try to load books first");
+            System.out.println("No books loaded in library, try to load books first");
             return;
         }
 
         for (int i = 0; i < books.size(); i++) {
-            System.out.println((i + 1) + ". " + books.get(i));
+            System.out.println(books.get(i));
         }
+
+        System.out.println("\nTotal books: " + books.size());
     }
 
     public void searchByTitle(String title) {
@@ -89,8 +102,11 @@ public class Library {
         if (filtered.isEmpty())
             System.out.println("There is no book with title of " + title.toLowerCase()
                     + " yet");
-        else
+        else {
             filtered.forEach(System.out::println);
+            System.out.println("\nMatches found: " + filtered.size());
+        }
+
     }
 
     public void filterByGenre(String genre) {
@@ -104,7 +120,14 @@ public class Library {
         if (filtered.isEmpty())
             System.out.println("There is no books of the genre " + genre.toLowerCase()
                     + " yet");
-        else
+        else {
             filtered.forEach(System.out::println);
+            System.out.println("\nMatches found: " + filtered.size());
+        }
+    }
+
+
+    public boolean isLibraryEmpty() {
+        return books.isEmpty();
     }
 }
