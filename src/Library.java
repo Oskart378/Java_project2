@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Library {
     private final ArrayList<Book> books;
@@ -126,6 +125,20 @@ public class Library {
         }
     }
 
+
+    public TreeSet<String> getAvailableGenres() {
+        TreeSet<String> availableGenres = new TreeSet<>();
+
+        try {
+            books.forEach(b -> availableGenres.add(b.getGenre()));
+        }
+
+        catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+
+        return availableGenres;
+    }
 
     public boolean isLibraryEmpty() {
         return books.isEmpty();

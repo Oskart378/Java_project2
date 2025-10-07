@@ -10,7 +10,7 @@ public class LibraryApp {
         this.library = library;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         //String booksFilePath = promptValidFileName();
         Library library = new Library();
         new LibraryApp(library).run();
@@ -21,7 +21,7 @@ public class LibraryApp {
         input.nextLine();
     }
 
-    public void run() {
+    public void run() throws Exception {
         boolean running = true;
 
         while (running) {
@@ -53,7 +53,8 @@ public class LibraryApp {
         while (true){
             String inputStr = input.nextLine().trim();
             if (inputStr.isEmpty()) {
-                System.out.println("Please enter a valid choice between 1 and 5");
+                System.out.println("Please enter a valid choice between 1 and 5.");
+                printMenu();
                 continue;
             }
 
@@ -62,10 +63,10 @@ public class LibraryApp {
                 if (choice >= 1 && choice <= 5)
                     return choice;
                 else
-                    System.out.println("Please enter a valid choice between 1 and 5");
+                    System.out.println("Please enter a valid choice between 1 and 5.");
 
             } catch (NumberFormatException ex) {
-                System.out.println("Please enter a valid choice between 1 and 5");
+                System.out.println("Please enter a valid choice between 1 and 5.");
             }
 
         }
@@ -75,6 +76,7 @@ public class LibraryApp {
         clearScreen();
         String newPath = promptValidFileName();
         library.loadBooksFromFile(newPath);
+        pauseConsole();
     }
 
     private void displayAllBooks() {
@@ -98,7 +100,7 @@ public class LibraryApp {
 
     }
 
-    private void filterByGenre() {
+    private void filterByGenre() throws Exception {
         //System.out.println("Available genres: ");
         //String genres = Arrays.stream(Book.Genre.values()).
                 //map(g -> g.name().charAt(0) + g.name().substring(1).toLowerCase()).
@@ -111,7 +113,7 @@ public class LibraryApp {
 
         else {
             System.out.println("Available genres:");
-            System.out.println("[" + "Fiction, Fantasy, Classic, Mystery, Horror, Romance, Biography, History, Poetry, Children, Science" + "]");
+            System.out.println(library.getAvailableGenres().toString());
             System.out.println("Enter a genre: ");
             String genre = input.nextLine().trim(); /*promptValidGenre();*/
             library.filterByGenre(genre);

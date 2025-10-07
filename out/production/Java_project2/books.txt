@@ -6,11 +6,11 @@ To Kill a Mockingbird;Harper Lee;CLASSIC;1960
 
 Pride and Prejudice;Jane Austen;ROMANCE;1813
 The Da Vinci Code;Dan Brown;MYSTERY;2003
-Dracula;Bram Stoker;HORROR;1897
+Dracula;Bram Stoker;HORROR;1800
 The Catcher in the Rye;J.D. Salinger;CLASSIC;1951
 The Diary of a Young Girl;Anne Frank;BIOGRAPHY;1947
 A Brief History of Time;Stephen Hawking;SCIENCE;1988
 Charlotte's Web;E.B. White;CHILDREN;1952
 The Odyssey;Homer;POETRY;800
 Sapiens: A Brief History of Humankind;Yuval Noah Harari;HISTORY;2011
-Frankenstein;Mary Shelley;blue;1900
+Frankenstein;Mary Shelley;blue;1000
