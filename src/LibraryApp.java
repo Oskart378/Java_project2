@@ -11,14 +11,17 @@ public class LibraryApp {
     }
 
     public static void main(String[] args) throws Exception {
-        //String booksFilePath = promptValidFileName();
         Library library = new Library();
         new LibraryApp(library).run();
     }
 
     private static void pauseConsole() {
         System.out.println("Press enter to go back to main menu...");
-        input.nextLine();
+
+        while (input.hasNextLine()) {
+            String line = input.nextLine();
+            if (line.isEmpty()) break; // stop only when the user really just hits enter
+        }
     }
 
     public void run() throws Exception {
@@ -34,7 +37,7 @@ public class LibraryApp {
                 case 3 -> searchByTitle();
                 case 4 -> filterByGenre();
                 case 5 -> { System.out.println("Good Bye!"); running = false;}
-                default -> System.out.println("Please enter a valid choice between 1 and 5");
+                default -> System.out.println("Please enter a valid choice between 1 and 5.");
             }
         }
     }
@@ -54,7 +57,7 @@ public class LibraryApp {
             String inputStr = input.nextLine().trim();
             if (inputStr.isEmpty()) {
                 System.out.println("Please enter a valid choice between 1 and 5.");
-                printMenu();
+                //printMenu();
                 continue;
             }
 
@@ -92,7 +95,7 @@ public class LibraryApp {
         }
 
         else {
-            System.out.println("Enter a book title: ");
+            System.out.print("Enter a book title: ");
             String title = input.nextLine().trim();
             library.searchByTitle(title);
         }
@@ -100,12 +103,7 @@ public class LibraryApp {
 
     }
 
-    private void filterByGenre() throws Exception {
-        //System.out.println("Available genres: ");
-        //String genres = Arrays.stream(Book.Genre.values()).
-                //map(g -> g.name().charAt(0) + g.name().substring(1).toLowerCase()).
-                //collect(Collectors.joining(", "));
-        //System.out.println("[" + genres + "]");
+    private void filterByGenre() {
         clearScreen();
         if (library.isLibraryEmpty()) {
             System.out.println("No books loaded in the library. please try to load books first.");
@@ -114,7 +112,7 @@ public class LibraryApp {
         else {
             System.out.println("Available genres:");
             System.out.println(library.getAvailableGenres().toString());
-            System.out.println("Enter a genre: ");
+            System.out.print("Enter a genre: ");
             String genre = input.nextLine().trim(); /*promptValidGenre();*/
             library.filterByGenre(genre);
         }
@@ -131,7 +129,7 @@ public class LibraryApp {
     public static String promptValidFileName() {
 
         while (true){
-            System.out.println("Enter the file path: ");
+            System.out.print("Enter the file path: ");
             String path = input.nextLine().trim();
             File file = new File(path);
 
@@ -142,7 +140,7 @@ public class LibraryApp {
             else if (!file.canRead())
                 System.out.println("Error: file can't be read. Check permissions and try again.");
             else {
-                System.out.println("File " + file.getAbsolutePath() + " is a valid file. loading books....");
+                System.out.println("File " + file.getName() + " is a valid file. loading books....");
                 return path;
             }
 

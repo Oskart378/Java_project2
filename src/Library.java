@@ -1,5 +1,5 @@
 import java.io.File;
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Library {
@@ -20,10 +20,10 @@ public class Library {
         fileName = fileName.trim();
         File file = new File(fileName);
 
-        /*if (!file.exists()) {
-            System.out.println("Sorry, could not load books, file does not exist");
+        if (!file.exists() || !file.canRead()) {
+            System.out.println("Sorry, could not load books, file does not exist or check permissions");
             return;
-        }*/
+        }
 
         try (Scanner fileReader = new Scanner(file)) {
             int corruptDataNum = 0;
@@ -41,22 +41,10 @@ public class Library {
                 }
 
                try {
-                    String title = bookInfo[0].trim();
-                    String author = bookInfo[1].trim();
-                    String genre = bookInfo[2].trim();
-                    int year = Integer.parseInt(bookInfo[3].trim());
-
-                    books.add(new Book(title, author, genre, year));
-
-
-               }
-
-               catch (IOException ex) {
-                   System.out.println("Error: could not open '" + fileName + "'. Please check the path and permission try again.");
+                    books.add(new Book(bookInfo[0], bookInfo[1], bookInfo[2], Integer.parseInt(bookInfo[3].trim())));
                }
 
                catch (Exception ex) {
-                    //System.out.println("Error: " + ex.getMessage());
                     corruptDataNum++;
                 }
             }
@@ -67,11 +55,9 @@ public class Library {
                 System.out.println("Skipped " + corruptDataNum + " corrupted line(s).");
         }
 
-        catch (Exception ex) {
-            System.out.println(ex.getMessage());
+        catch (FileNotFoundException ex) {
+            System.out.println("Error: " + ex.getMessage());
         }
-
-
     }
 
     public void displayAllBooks() {
@@ -81,8 +67,8 @@ public class Library {
             return;
         }
 
-        for (int i = 0; i < books.size(); i++) {
-            System.out.println(books.get(i));
+        for (Book book : books) {
+            System.out.println(book);
         }
 
         System.out.println("\nTotal books: " + books.size());
@@ -130,7 +116,13 @@ public class Library {
         TreeSet<String> availableGenres = new TreeSet<>();
 
         try {
-            books.forEach(b -> availableGenres.add(b.getGenre()));
+
+            books.forEach(b -> {
+                String g = b.getGenre();
+                if (!g.isBlank()) {
+                    availableGenres.add(g.substring(0,1).toUpperCase() + g.substring(1).toLowerCase());
+                }
+            });
         }
 
         catch (Exception ex) {

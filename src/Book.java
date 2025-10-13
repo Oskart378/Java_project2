@@ -11,9 +11,9 @@ public class Book {
     public Book(String title, String author, String genre, int yearPublished) throws Exception {
         if (title == null || title.isBlank())
             throw new IllegalArgumentException("Title can't be blank");
-        if(!isValidName(author))
+        if(author == null || author.isBlank())
             throw new IllegalArgumentException("Author can't be blank or have invalid characters like numbers or symbols");
-        if (genre == null)
+        if (genre == null || genre.isBlank())
             throw new IllegalArgumentException("Genre can't be null");
         if (!isValidYearPublished(yearPublished))
             throw new IllegalArgumentException("Invalid year");
@@ -22,10 +22,6 @@ public class Book {
         this.author = author.trim();
         this.genre = genre.trim();
         this.yearPublished = yearPublished;
-    }
-
-    private boolean isValidName(String name) {
-        return name != null && !name.isBlank() && name.matches("^[A-Za-z .]+$");
     }
 
     private boolean isValidYearPublished(int yearPublished) {
